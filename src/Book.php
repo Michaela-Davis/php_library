@@ -86,19 +86,12 @@
         }
         function save()
         {
-            $test = $this->getTitle();
-            echo($test);
-            // var_dump($this->getTitle());
-            // //   $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('{$this->getTitle()}');");
-            // //   $this->id = $GLOBALS['DB']->lastInsertId();
-            // $GLOBALS['DB']->exec("INSERT INTO books (title, genre, ISBN, total, available, checked_out) VALUES ('{$this->getTitle()}',
-            // 'test',
-            // 'dasd',
-            // 1,
-            // 2,
-            // 3);");
-            // $this->id = $GLOBALS['DB']->lastInsertId();
-            $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('test');");
+            $GLOBALS['DB']->exec("INSERT INTO books (title, genre, ISBN, total, available, checked_out) VALUES ('{$this->getTitle()}',
+            '{$this->getGenre()}',
+            '{$this->getISBN()}',
+            {$this->getTotal()},
+            {$this->getAvailable()},
+            {$this->getCheckedOut()});");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
@@ -128,9 +121,9 @@
                 $ISBN = $book['ISBN'];
                 $total = $book['total'];
                 $available = $book['available'];
-                $checkout_out = $book['checkout_out'];
+                $checked_out = $book['checked_out'];
                 $id = $book['id'];
-                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checkout_out, $id);
+                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checked_out, $id);
                 array_push($books, $new_book);
             }
             return $books;
