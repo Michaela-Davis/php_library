@@ -109,20 +109,38 @@
 
         function addBook($book)
         {
-            $GLOBALS['DB']->exec("INSERT INTO patrons_books (book_id, patron_id, book_status) VALUES ({$book->getId()}, {$this->getId()});");
+            $available = $GLOBALS['DB']->query("SELECT * FROM books WHERE id = {$book->getId()};");
+            $number_available = null;
+            $number_checked_out = null;
+            foreach ($available as $novel) {
+                $number_available = $novel['available'];
+                $number_checked_out = $novel['checked_out'];
+            }
+            $number_available = $number_available - 1;
+            $number_checked_out = $number_checked_out + 1;
+
+            $date = date("Y-m-d");
+            $due = date('Y-m-d', strtotime($date. ' + 14 days'));
+
+            $GLOBALS['DB']->exec("UPDATE books SET available = {(int) $number_available}, checked_out = {(int) $number_checked_out}");
+
+            $GLOBALS['DB']->exec("INSERT INTO patrons_books (book_id, patron_id, checkout_date, due_date) VALUES ({$book->getId()}, {$this->getId()}, '{$date}', '{$due}');");
         }
 
         function getBooks()
         {
             $return_books = $GLOBALS['DB']->query("SELECT books.* FROM patrons JOIN patrons_books ON (patrons.id = patrons_books.patron_id) JOIN books ON (patrons_books.book_id = books.id) WHERE patrons.id = {$this->getId()};");
-
             $books = array();
 
             foreach ($return_books as $book){
-                $return_name = $book['book_name'];
-                $return_num = $book['book_number'];
+                $name = $book['title'];
+                $genre = $book['genre'];
+                $ISBN = $book['ISBN'];
+                $total = $book['total'];
+                $available = $book['available'];
+                $checked_out = $book['checked_out'];
                 $return_id = $book['id'];
-                $new_book = new Book($return_name, $return_num, $return_id);
+                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checked_out, $return_id);
                 array_push($books, $new_book);
             }
 

@@ -193,9 +193,9 @@
                 $ISBN = $match['ISBN'];
                 $total = $match['total'];
                 $available = $match['available'];
-                $checkout_out = $match['checkout_out'];
+                $checked_out = $match['checked_out'];
                 $return_id = $match['id'];
-                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checkout_out, $return_id);
+                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checked_out, $return_id);
                 array_push($matches, $new_book);
             }
             return $matches;
