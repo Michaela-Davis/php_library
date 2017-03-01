@@ -109,7 +109,7 @@
 
         function addBook($book)
         {
-            $GLOBALS['DB']->exec("INSERT INTO authors_books (book_id, author_id, book_status) VALUES ({$book->getId()}, {$this->getId()}, 'Enrolled');");
+            $GLOBALS['DB']->exec("INSERT INTO authors_books (book_id, author_id) VALUES ({$book->getId()}, {$this->getId()});");
         }
 
         function getBooks()
@@ -119,10 +119,14 @@
             $books = array();
 
             foreach ($return_books as $book){
-                $return_name = $book['book_name'];
-                $return_num = $book['book_number'];
+                $name = $book['title'];
+                $genre = $book['genre'];
+                $ISBN = $book['ISBN'];
+                $total = $book['total'];
+                $available = $book['available'];
+                $checked_out = $book['checked_out'];
                 $return_id = $book['id'];
-                $new_book = new Book($return_name, $return_num, $return_id);
+                $new_book = new Book($name, $genre, $ISBN, $total, $available, $checked_out, $return_id);
                 array_push($books, $new_book);
             }
             return $books;
