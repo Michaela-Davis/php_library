@@ -92,14 +92,16 @@
         function findBooks()
         {
             $found_books = [];
-            $return_books = $GLOBALS['DB']->query("SELECT * FROM patrons JOIN patrons_books ON (patrons.id = patrons_books.book_id) JOIN books ON (patrons_books.book_id = books.id) WHERE patrons.id = {$this->getId()};");
-
+            $return_books = $GLOBALS['DB']->query("SELECT patrons_books.checkout_date, patrons_books.due_date, books.title, books.id, authors.first_name, authors.last_name FROM patrons join patrons_books ON (patrons.id = patrons_books.patron_id) join books on books.id = patrons_books.book_id join authors_books ON (books.id = authors_books.book_id) join authors ON (authors_books.author_id = authors.id) where patrons.id = {$this->getId()};");
             foreach ($return_books as $book){
+                $title = $book['title'];
+                $id = $book['id'];
                 $first_name = $book['first_name'];
                 $last_name = $book['last_name'];
-                $return_id = $book['id'];
-                $new_book = new Author($first_name, $last_name, $return_id);
-                array_push($books, $new_book);
+                $due = $book['due_date'];
+                $check = $book['checkout_date'];
+                $new_book = array('title'=>$title, 'id'=>$id, 'first_name'=>$first_name, 'last_name'=>$last_name, 'due'=>$due, 'check'=>$check);
+                array_push($found_books, $new_book);
             }
             return $found_books;
         }

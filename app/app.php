@@ -105,8 +105,7 @@
 
     $app->get("/patrons/{id}", function($id) use ($app) {
         $new_patron = Patron::find($id);
-        $found_books = $new_patron->getBooks();
-        var_dump($found_books);
+        $found_books = $new_patron->findBooks();
         return $app['twig']->render('patron.html.twig', array('patron'=>$new_patron, 'all_books'=>Book::getAll(), 'found_books'=>$found_books));
     });
 

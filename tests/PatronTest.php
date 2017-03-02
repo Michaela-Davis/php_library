@@ -263,6 +263,65 @@
             //Assert
             $this->assertEquals($test_patron->getBooks(), [$test_book, $test_book2]);
         }
+
+        function testFindBooks()
+        {
+            //Arrange
+            $title = "War on Terror Revisited: Trumps America";
+            $genre = "Non-fiction";
+            $ISBN = "123456789104";
+            $total = 3;
+            $available = 1;
+            $checked_out = 2;
+            $test_book = new Book($title, $genre, $ISBN, $total, $available, $checked_out);
+            $test_book->save();
+
+            $id = $test_book->getId();
+
+            $title2 = "Stas Wars: The Empire Strikes Back";
+            $genre2 = "Non-fiction";
+            $ISBN2 = "123456789104";
+            $total2 = 3;
+            $available2 = 0;
+            $checked_out2 = 3;
+            $test_book2 = new Book($title2, $genre2, $ISBN2, $total2, $available2, $checked_out2);
+            $test_book2->save();
+
+            $first_name = "Mark";
+            $last_name = "Johnson";
+
+            $testAuthor = new Author($first_name, $last_name);
+            $testAuthor->save();
+
+            $testAuthor->addBook($test_book);
+
+            $first_name2 = "Jim";
+            $last_name2 = "Jackson";
+
+            $testAuthor2 = new Author($first_name2, $last_name2);
+            $testAuthor2->save();
+
+            $testAuthor2->addBook($test_book2);
+
+            $patron_first_name = "Sam";
+            $patron_last_name = "Waters";
+
+            $test_patron = new Patron($patron_first_name, $patron_last_name);
+            $test_patron->save();
+
+            $test_patron->addBook($test_book);
+            $test_patron->addBook($test_book2);
+
+            $date = "2017-03-02";
+            $due = "2017-03-16";
+
+            //Act
+
+            $test_patron->findBooks();
+
+            //Assert
+            $this->assertEquals($test_patron->findBooks(),array('title'=>$title, 'id'=>$id, 'first_name'=>$first_name, 'last_name'=>$last_name, 'due'=> $due, 'check'=>$date));
+        }
     }
 
 ?>
