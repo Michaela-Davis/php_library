@@ -1,3 +1,6 @@
-.student-edit, .tbl-del, .course-edit {
-    float: right;
+body {
+    font-family: 'Slabo 27px', serif;
+}
+h1 {
+    font-family: 'Slabo 27px', serif;
 }
