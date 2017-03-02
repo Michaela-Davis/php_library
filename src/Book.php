@@ -96,12 +96,16 @@
         }
 
 
-        function update($new_total, $new_available, $new_checked_out)
+        function update($new_total)
         {
-            $GLOBALS['DB']->exec("UPDATE books SET total = {$new_total}, available = {$new_available}, new_checked_out = {$new_checked_out}  WHERE id = {$this->getId()};");
-            $this->setTotal($new_total);
-            $this->setAvailable($new_available);
-            $this->setCheckedOut($new_checked_out);
+            $GLOBALS['DB']->exec("UPDATE books SET total = (total + {$new_total}), available = (available + {$new_total})  WHERE id = {$this->getId()};");
+
+            $total = $GLOBALS['DB']->query("SELECT total FROM books WHERE id = {$this->getId()}");
+            $new_num = null;
+            foreach ($total as $num) {
+                $new_num = $num['total'];
+            }
+            $this->setTotal($new_num);
         }
 
         function delete()

@@ -118,15 +118,13 @@
             $test_book = new Book($title, $genre, $ISBN, $total, $available, $checked_out);
             $test_book->save();
 
-            $test_total = 5;
-            $test_available = 1;
-            $test_checked_out = 4;
+            $test_total = 1;
 
             //Act
-            $test_book->update($test_total, $test_available, $test_checked_out);
+            $test_book->update($test_total);
 
             //Assert
-            $this->assertEquals($test_total, $test_book->getTotal());
+            $this->assertEquals(4, $test_book->getTotal());
         }
 
         function testDeleteBook()

@@ -60,6 +60,12 @@
         return $app->redirect("/books");
     });
 
+    $app->patch("/add-copies/{id}", function($id) use ($app) {
+        $book = Book::find($id);
+        $book->update($_POST['inputTotal']);
+        return $app->redirect("/books/$id");
+    });
+
     $app->get("/authors", function() use ($app) {
         return $app['twig']->render('authors.html.twig', array('authors'=>Author::getall()));
     });

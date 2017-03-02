@@ -10,14 +10,11 @@
                     <tr>
                       <th class="title">{{book.getTitle}}</th>
                       <th>
-                          <form class="form-group tbl-edit" action="/delete-book/{{book.getId}}" method="post">
+                          <form class="form-group tbl-del" action="/delete-book/{{book.getId}}" method="post">
                               <input type="hidden" name="_method" value="delete">
                               <button type="submit" class="btn btn-xs btn-danger" name="button">Remove</button>
                           </form>
-                          <form class="form-group tbl-del" action="/add-copies/{{book.getId}}" method="post">
-                              <input type="hidden" name="_method" value="patch">
-                              <button type="submit" class="btn btn-xs btn-success" name="button">Add copies</button>
-                          </form>
+                          <button class="addCopies btn btn-xs btn-success tbl-edit" type="button" value='{{book.getId}}'>Add Copies</button>
                       </th>
                     </tr>
                   </thead>
@@ -25,29 +22,29 @@
                       <tr>
                           <td>Author</td>
                           {% for author in book.getAuthors %}
-                          <td>{{author.getFirstName}} {{author.getLastName}}</td>
+                          <td class="name">{{author.getFirstName}} {{author.getLastName}}</td>
                           {% endfor %}
                       </tr>
                       <tr>
                           <td>Genre</td>
-                          <td>{{book.getGenre}}</td>
+                          <td class="genre">{{book.getGenre}}</td>
                       </tr>
                       <tr>
                           <td>ISBN</td>
-                          <td>{{book.getISBN}}</td>
+                          <td class="isbn">{{book.getISBN}}</td>
                       </tr>
                       <tr>
                           <td>Total</td>
-                          <td>{{book.getTotal}}</td>
+                          <td class="total">{{book.getTotal}}</td>
                       </tr>
                       <tr>
                           <td>Available Copies</td>
-                          <td>{{book.getAvailable}}</td>
+                          <td class="available">{{book.getAvailable}}</td>
                       </tr>
 
                       <tr>
                           <td>Checked Out</td>
-                          <td>{{book.getCheckedOut}}</td>
+                          <td class="checkedOut">{{book.getCheckedOut}}</td>
                       </tr>
                   </tbody>
                 </table>
