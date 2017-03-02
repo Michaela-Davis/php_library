@@ -1,6 +1,19 @@
 body {
     font-family: 'Slabo 27px', serif;
 }
-h1 {
+
+.title {
     font-family: 'Slabo 27px', serif;
+    font-size: 2em;
+    letter-spacing: 1px;
+}
+
+.tbl-edit, .tbl-del {
+    float: right;
+    margin-bottom: 0;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
 }

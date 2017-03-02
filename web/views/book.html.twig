@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    {% include '/components/head.html.twig' %}
+    <body>
+        <div class="container">
+            {% include '/components/navbar.html.twig' %}
+
+            <table class="table table-striped table-hover ">
+                  <thead>
+                    <tr>
+                      <th class="title">{{book.getTitle}}</th>
+                      <th>
+                          <form class="form-group tbl-edit" action="/delete-book/{{book.getId}}" method="post">
+                              <input type="hidden" name="_method" value="delete">
+                              <button type="submit" class="btn btn-xs btn-danger" name="button">Remove</button>
+                          </form>
+                          <form class="form-group tbl-del" action="/add-copies/{{book.getId}}" method="post">
+                              <input type="hidden" name="_method" value="patch">
+                              <button type="submit" class="btn btn-xs btn-success" name="button">Add copies</button>
+                          </form>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Author</td>
+                          {% for author in book.getAuthors %}
+                          <td>{{author.getFirstName}} {{author.getLastName}}</td>
+                          {% endfor %}
+                      </tr>
+                      <tr>
+                          <td>Genre</td>
+                          <td>{{book.getGenre}}</td>
+                      </tr>
+                      <tr>
+                          <td>ISBN</td>
+                          <td>{{book.getISBN}}</td>
+                      </tr>
+                      <tr>
+                          <td>Total</td>
+                          <td>{{book.getTotal}}</td>
+                      </tr>
+                      <tr>
+                          <td>Available Copies</td>
+                          <td>{{book.getAvailable}}</td>
+                      </tr>
+
+                      <tr>
+                          <td>Checked Out</td>
+                          <td>{{book.getCheckedOut}}</td>
+                      </tr>
+                  </tbody>
+                </table>
+
+                <!-- <form class="form-horizontal well" action="/books" method="post">
+                  <fieldset>
+                    <legend>Add Book</legend>
+                    <div class="form-group">
+                      <label for="inputTitle" class="col-lg-2 control-label">Title</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputTitle" placeholder="Title">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputGenre" class="col-lg-2 control-label">Genre</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputGenre" placeholder="Genre">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputISBN" class="col-lg-2 control-label">ISBN</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputISBN" placeholder="ISBN">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputTotal" class="col-lg-2 control-label">Total Copies</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputTotal" placeholder="Total Copies">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAvailable" class="col-lg-2 control-label">Available Copies</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputAvailable" placeholder="Available Copies">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputCheckedOut" class="col-lg-2 control-label">Checked Out Copies</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" name="inputCheckedOut" placeholder="Checked Out Copies">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAuthor" class="col-lg-2 control-label">Author</label>
+                      <div class="col-lg-10">
+                        <select type="text" class="form-control" name="inputAuthor">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form> -->
+
+
+
+            {% include '/components/footer.html.twig' %}
+        </div>
+    </body>
+</html>

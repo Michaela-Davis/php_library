@@ -44,9 +44,14 @@
     $app->post("/books", function() use ($app) {
         $new_book = new Book($_POST['inputTitle'], $_POST['inputGenre'], $_POST['inputISBN'], $_POST['inputTotal'], $_POST['inputAvailable'], $_POST['inputCheckedOut']);
         $new_book->save();
-        $author = Author::find($new_book->getId());
+        $author = Author::find($_POST['inputAuthor']);
         $author->addBook($new_book);
         return $app['twig']->render('books.html.twig', array('books'=>Book::getall(), "authors"=>Author::getAll()));
+    });
+
+    $app->get("/books/{id}", function($id) use ($app) {
+        $new_book = Book::find($id);
+        return $app['twig']->render('book.html.twig', array('book'=>$new_book));
     });
 
     $app->delete("/delete-book/{id}", function($id) use ($app) {
