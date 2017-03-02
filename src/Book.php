@@ -84,6 +84,7 @@
         {
             return $this->id;
         }
+
         function save()
         {
             $GLOBALS['DB']->exec("INSERT INTO books (title, genre, ISBN, total, available, checked_out) VALUES ('{$this->getTitle()}',
@@ -94,7 +95,6 @@
             {$this->getCheckedOut()});");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
-
 
         function update($new_total)
         {

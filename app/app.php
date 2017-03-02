@@ -70,6 +70,11 @@
         return $app['twig']->render('authors.html.twig', array('authors'=>Author::getall()));
     });
 
+    $app->get("/authors/{id}", function($id) use ($app) {
+        $new_author = Author::find($id);
+        return $app['twig']->render('author.html.twig', array('author'=>$new_author));
+    });
+
     $app->post("/authors", function() use ($app) {
         $new_book = new Author($_POST['inputFirstName'], $_POST['inputLastName']);
         $new_book->save();
@@ -98,6 +103,19 @@
         return $app->redirect("/patrons");
     });
 
+    $app->get("/patrons/{id}", function($id) use ($app) {
+        $new_patron = Patron::find($id);
+        $found_books = $new_patron->getBooks();
+        var_dump($found_books);
+        return $app['twig']->render('patron.html.twig', array('patron'=>$new_patron, 'all_books'=>Book::getAll(), 'found_books'=>$found_books));
+    });
+
+    $app->post("/patrons/{id}", function($id) use ($app) {
+        $new_patron = Patron::find($id);
+        $book = Book::find($_POST['bookDrop']);
+        $new_patron->addBook($book);
+        return $app->redirect("/patrons/$id");
+    });
 
     return $app;
 ?>

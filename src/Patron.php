@@ -89,6 +89,21 @@
             return $found_patron;
         }
 
+        function findBooks()
+        {
+            $found_books = [];
+            $return_books = $GLOBALS['DB']->query("SELECT * FROM patrons JOIN patrons_books ON (patrons.id = patrons_books.book_id) JOIN books ON (patrons_books.book_id = books.id) WHERE patrons.id = {$this->getId()};");
+
+            foreach ($return_books as $book){
+                $first_name = $book['first_name'];
+                $last_name = $book['last_name'];
+                $return_id = $book['id'];
+                $new_book = new Author($first_name, $last_name, $return_id);
+                array_push($books, $new_book);
+            }
+            return $found_books;
+        }
+
         function update($new_first_name, $new_last_name)
         {
             $GLOBALS['DB']->exec("UPDATE patrons SET first_name = '{$new_first_name}', last_name = '{$new_last_name}' WHERE id = {$this->getId()};");
