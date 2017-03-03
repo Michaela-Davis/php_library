@@ -92,15 +92,16 @@
         function findBooks()
         {
             $found_books = [];
-            $return_books = $GLOBALS['DB']->query("SELECT patrons_books.checkout_date, patrons_books.due_date, books.title, books.id, authors.first_name, authors.last_name FROM patrons join patrons_books ON (patrons.id = patrons_books.patron_id) join books on books.id = patrons_books.book_id join authors_books ON (books.id = authors_books.book_id) join authors ON (authors_books.author_id = authors.id) where patrons.id = {$this->getId()};");
+            $return_books = $GLOBALS['DB']->query("SELECT patrons_books.join_id, patrons_books.checkout_date, patrons_books.due_date, books.title, books.id, authors.first_name, authors.last_name FROM patrons join patrons_books ON (patrons.id = patrons_books.patron_id) join books on books.id = patrons_books.book_id join authors_books ON (books.id = authors_books.book_id) join authors ON (authors_books.author_id = authors.id) where patrons.id = {$this->getId()};");
             foreach ($return_books as $book){
                 $title = $book['title'];
                 $id = $book['id'];
+                $join_id = $book['join_id'];
                 $first_name = $book['first_name'];
                 $last_name = $book['last_name'];
                 $due = $book['due_date'];
                 $check = $book['checkout_date'];
-                $new_book = array('title'=>$title, 'id'=>$id, 'first_name'=>$first_name, 'last_name'=>$last_name, 'due'=>$due, 'check'=>$check);
+                $new_book = array('title'=>$title, 'join_id'=>$join_id, 'id'=>$id, 'first_name'=>$first_name, 'last_name'=>$last_name, 'due'=>$due, 'check'=>$check);
                 array_push($found_books, $new_book);
             }
             return $found_books;
@@ -117,11 +118,6 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM patrons WHERE id = {$this->getId()};");
             $GLOBALS['DB']->exec("DELETE FROM patrons_books WHERE patron_id = {$this->getId()};");
-        }
-
-        function removeBook($book)
-        {
-            $GLOBALS['DB']->exec("DELETE FROM patrons_books WHERE book_id = {$book->getId()} and patron_id = {$this->getId()};");
         }
 
         function addBook($book)
@@ -160,28 +156,9 @@
                 $new_book = new Book($name, $genre, $ISBN, $total, $available, $checked_out, $return_id);
                 array_push($books, $new_book);
             }
-
             return $books;
-
         }
 
-        // function getBookStatus($book_id)
-        // {
-        //     $returned_status = $GLOBALS['DB']->query("SELECT book_status FROM patrons_books WHERE book_id = {$book_id} and patron_id = {$this->getId()};");
-        //
-        //     $status_result = null;
-        //
-        //     foreach ($returned_status as $status) {
-        //         $status_result = $status['book_status'];
-        //     }
-        //
-        //     return $status_result;
-        // }
-
-        // static function updateStatus ($patron_id, $book_id, $status)
-        // {
-        //     $GLOBALS['DB']->exec("UPDATE patrons_books SET book_status = '{$status}' WHERE patron_id = {$patron_id} and book_id = {$book_id};");
-        // }
 
         static function searchFor($search_term)
         {

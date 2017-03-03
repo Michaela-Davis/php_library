@@ -115,6 +115,26 @@
             $GLOBALS['DB']->exec("DELETE FROM authors_books WHERE book_id = {$this->getId()};");
         }
 
+        function turnIn()
+        {
+            $GLOBALS['DB']->exec("UPDATE books SET available = (available + 1), checked_out = (checked_out - 1)  WHERE id = {$this->getId()};");
+
+            $available = $GLOBALS['DB']->query("SELECT available, checked_out FROM books WHERE id = {$this->getId()}");
+            $new_avail = null;
+            $new_check = null;
+            foreach ($available as $num) {
+                $new_avail = $num['available'];
+                $new_check = $num['checked_out'];
+            }
+            $this->setAvailable($new_avail);
+            $this->setCheckedOut($new_check);
+        }
+
+        function removeBook($id)
+        {
+            $GLOBALS['DB']->exec("DELETE FROM patrons_books WHERE join_id = {$id}");
+        }
+
         static function getAll()
         {
             $returned_books = $GLOBALS['DB']->query("SELECT * FROM books;");

@@ -116,6 +116,13 @@
         return $app->redirect("/patrons/$id");
     });
 
+    $app->delete("/turn-in/{id}/{join_id}", function($id, $join_id) use ($app) {
+        $book = Book::find($id);
+        $book->turnIn();
+        $book->removeBook($join_id);
+        return $app->redirect("/patrons");
+    });
+
     return $app;
 ?>
 

@@ -33,14 +33,14 @@
                           <td>{{ book.check }}</td>
 
                           <td>
-                              <form class="form-group" action="/turn-in/" method="post">
+                              <form class="form-group" action="/turn-in/{{book.id}}/{{book.join_id}}" method="post">
                                   <input type="hidden" name="_method" value="delete">
                                   <button type="submit" class="btn btn-xs btn-info" name="button">Turn In</button>
                               </form>
                           </td>
                           <td>
-                              <form class="form-group" action="/renew/" method="post">
-                                  <input type="hidden" name="_method" value="delete">
+                              <form class="form-group" action="/renew/{{book.id}}" method="post">
+                                  <input type="hidden" name="_method" value="update">
                                   <button type="submit" class="btn btn-xs btn-warning" name="button">Renew</button>
                               </form>
                           </td>
