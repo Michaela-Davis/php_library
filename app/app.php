@@ -125,6 +125,12 @@
         return $app->redirect("/patrons");
     });
 
+    $app->patch("/renew/{id}/{join_id}", function($id, $join_id) use ($app) {
+        $book = Book::find($id);
+        $book->renew($join_id);
+        return $app->redirect("/patrons");
+    });
+
     return $app;
 ?>
 

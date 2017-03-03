@@ -130,6 +130,13 @@
             $this->setCheckedOut($new_check);
         }
 
+        function renew($id)
+        {
+            $date = date("Y-m-d");
+            $due = date('Y-m-d', strtotime($date. ' + 20 days'));
+            $GLOBALS['DB']->exec("UPDATE patrons_books SET due_date = '{$due}' WHERE join_id = {$id};");
+        }
+
         function removeBook($id)
         {
             $GLOBALS['DB']->exec("DELETE FROM patrons_books WHERE join_id = {$id}");

@@ -39,8 +39,8 @@
                               </form>
                           </td>
                           <td>
-                              <form class="form-group" action="/renew/{{book.id}}" method="post">
-                                  <input type="hidden" name="_method" value="update">
+                              <form class="form-group" action="/renew/{{book.id}}/{{book.join_id}}" method="post">
+                                  <input type="hidden" name="_method" value="patch">
                                   <button type="submit" class="btn btn-xs btn-warning" name="button">Renew</button>
                               </form>
                           </td>
