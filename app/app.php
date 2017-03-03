@@ -72,7 +72,9 @@
 
     $app->get("/authors/{id}", function($id) use ($app) {
         $new_author = Author::find($id);
-        return $app['twig']->render('author.html.twig', array('author'=>$new_author));
+        $books = $new_author->getBooks();
+
+        return $app['twig']->render('author.html.twig', array('author'=>$new_author, 'all_books'=>$books));
     });
 
     $app->post("/authors", function() use ($app) {
